@@ -432,6 +432,7 @@ footer {
   color: var(--dark);
   z-index: 5;
   padding: 6vw;
+  overflow-y: auto;
 }
 .room > button {
   float: right;
@@ -468,13 +469,18 @@ footer {
   color: var(--orange);
   margin-right: 8px;
 }
-.seal {
+.room > button.seal {
   display: block;
+  float: none;
   margin-left: auto;
+  margin-top: 18px;
   background: var(--dark);
   color: var(--acid);
   border: 0;
   padding: 20px 28px;
+  position: sticky;
+  bottom: 0;
+  z-index: 2;
 }
 @media (max-width: 850px) {
   header {
