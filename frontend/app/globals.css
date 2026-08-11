@@ -372,6 +372,8 @@ header button {
 .recorded-witness h3{font-size:28px;margin:10px 0}.recorded-witness p{margin:8px 0 14px;line-height:1.45}
 .recorded-witness a{display:block;color:inherit;text-decoration:underline;overflow-wrap:anywhere;margin:8px 0}
 .recorded-witness ul{display:block;margin:8px 0;padding-left:20px}.recorded-witness li{display:list-item;margin:5px 0}
+.start-test{display:block;margin-top:28px;padding:16px 22px;background:#0b1711;color:#d5ff45;border:1px solid #d5ff45;font:700 12px/1 monospace;letter-spacing:.08em;cursor:pointer}
+#milestones{scroll-margin-top:20px}
 .rings {
   width: 180px;
   height: 180px;

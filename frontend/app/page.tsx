@@ -130,8 +130,12 @@ export default function Page() {
           <b>80,000</b>
           <i>GEN</i>
         </div>
+        <button className="start-test" onClick={() => {
+          setStep(1);
+          document.getElementById("milestones")?.scrollIntoView({ behavior: "smooth" });
+        }}>START TEST — MILESTONE 02 ↓</button>
       </section>
-      <section className="journey">
+      <section className="journey" id="milestones">
         <div className="rail">
           {stops.map((x, i) => (
             <button
