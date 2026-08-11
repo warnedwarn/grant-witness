@@ -469,6 +469,10 @@ footer {
   color: var(--orange);
   margin-right: 8px;
 }
+.source-field{display:block;margin:24px 0 8px;border-top:1px solid var(--dark);padding-top:18px}
+.source-field span{display:block;font:10px IBM Plex Mono;margin-bottom:10px}
+.source-field input{width:100%;box-sizing:border-box;border:1px solid var(--dark);background:transparent;color:var(--dark);padding:16px;font:14px IBM Plex Mono;outline:none}
+.source-field input:focus{background:#f4ffe0}.source-field small{display:block;margin-top:8px;font:9px IBM Plex Mono}
 .room > button.seal {
   display: block;
   float: none;

@@ -47,7 +47,8 @@ export default function Page() {
     [account, setAccount] = useState(""),
     [status, setStatus] = useState(""),
     [hash, setHash] = useState(""),
-    [record, setRecord] = useState<any>(null);
+    [record, setRecord] = useState<any>(null),
+    [sourceUrl, setSourceUrl] = useState("");
   async function wallet() {
     try {
       setAccount(await connect());
@@ -57,6 +58,10 @@ export default function Page() {
   }
   async function witness() {
     try {
+      if (!/^https?:\/\//i.test(sourceUrl.trim())) {
+        setStatus("ENTER A VALID PUBLIC EVIDENCE URL");
+        return;
+      }
       const packageId = `GW-${Date.now()}`;
       await write(
         "submit_witness_package",
@@ -69,7 +74,7 @@ export default function Page() {
             "Operational custody accepted by every council",
           ],
           "Deploy community sensor mesh",
-          ["https://www.epa.gov/air-sensor-toolbox/air-sensor-data-tools"],
+          [sourceUrl.trim()],
           BigInt(42000),
         ],
         (s, h) => {
@@ -265,6 +270,16 @@ export default function Page() {
                   <i>!</i> Two custody signatures absent
                 </li>
               </ul>
+              <label className="source-field">
+                <span>PUBLIC EVIDENCE URL</span>
+                <input
+                  type="url"
+                  value={sourceUrl}
+                  onChange={(e) => setSourceUrl(e.target.value)}
+                  placeholder="https://official-source.example/evidence"
+                />
+                <small>The contract fetches and authenticates this page independently.</small>
+              </label>
               <button className="seal" onClick={witness}>
                 SEAL EVIDENCE & CONVENE →
               </button>
