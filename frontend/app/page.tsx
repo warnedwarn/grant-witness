@@ -69,7 +69,7 @@ export default function Page() {
             "Operational custody accepted by every council",
           ],
           "Deploy community sensor mesh",
-          ["https://www.who.int/publications/i/item/9789240090259"],
+          ["https://www.epa.gov/air-sensor-toolbox/air-sensor-data-tools"],
           BigInt(42000),
         ],
         (s, h) => {
