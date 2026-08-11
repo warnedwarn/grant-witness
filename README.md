@@ -2,7 +2,7 @@
 
 Money moves after proof—not after presentation.
 
-GrantWitness turns a public grant into a sequence of visible release gates. A witness package carries the frozen mission, its obligations, the milestone under review, and the submitted evidence. GenLayer validators read those terms semantically and return a fulfillment decision without transferring funds automatically.
+GrantWitness turns a public grant into visible release gates. The contract freezes the mission and every obligation, fetches the submitted public source itself, stores an authenticated snapshot, and records the validator witness for the application to render.
 
 ## Decision model
 
@@ -12,13 +12,18 @@ The intelligent contract distinguishes:
 - `CONDITIONAL` — meaningful delivery exists, with explicit gaps
 - `NOT_FULFILLED` — the release gate has not been earned
 
-The UI uses a single `submit_witness_package` transaction for the complete witness request, avoiding duplicate wallet prompts. Results preserve covered obligations, missing obligations, a rationale, and validator confidence.
+The UI uses `submit_witness_package` for the complete witness request and then reads `get_charter`, `get_milestone`, and `get_witness`. The displayed result is contract state, not a caller-written or hard-coded claim.
 
 ## Safety boundary
 
 GrantWitness records eligibility only. It contains no token-transfer or automatic payout path. A treasury can inspect the on-chain witness result and apply its own authorized release process.
 
-Deployed on GenLayer Bradbury: `0x3949C1866c3eADEbD13C1F48c4927E34B75b3902`
+## Verified StudioNet deployment
+
+- Contract: `0xB57E4a8Dc5CB8b63E05aa2665de5f7579c738991`
+- Deploy transaction: `0xf2f9657f152e9719094e6b6ed24b874563b1c8d197a6b9574d82eac2ebeb6dd3`
+- Accepted workflow transaction: `0xd398db4c5a849d14a5a46d163c42bb2c74e6b6f587cd3897c90d6fab25f77d7a`
+- Verified package: `GW-WEB-1786470592`
 
 ## Local studio
 

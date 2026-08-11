@@ -1,7 +1,7 @@
 "use client";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { connect, EXPLORER, write } from "../lib/chain";
+import { connect, EXPLORER, read, write } from "../lib/chain";
 const stops = [
   {
     n: "01",
@@ -46,7 +46,8 @@ export default function Page() {
     [open, setOpen] = useState(false),
     [account, setAccount] = useState(""),
     [status, setStatus] = useState(""),
-    [hash, setHash] = useState("");
+    [hash, setHash] = useState(""),
+    [record, setRecord] = useState<any>(null);
   async function wallet() {
     try {
       setAccount(await connect());
@@ -56,10 +57,11 @@ export default function Page() {
   }
   async function witness() {
     try {
+      const packageId = `GW-${Date.now()}`;
       await write(
         "submit_witness_package",
         [
-          `GW-${Date.now()}`,
+          packageId,
           "Build and transfer an open sensor network to six neighbourhood councils.",
           [
             "Six sensor locations published",
@@ -67,11 +69,7 @@ export default function Page() {
             "Operational custody accepted by every council",
           ],
           "Deploy community sensor mesh",
-          [
-            "Six signed installation coordinates",
-            "Live public data endpoint",
-            "Four of six custody signatures",
-          ],
+          ["https://www.who.int/publications/i/item/9789240090259"],
           BigInt(42000),
         ],
         (s, h) => {
@@ -79,7 +77,14 @@ export default function Page() {
           if (h) setHash(h);
         },
       );
-      setOpen(false);
+      setStatus("READING RECORDED WITNESS");
+      const [charter, milestone, witnessed] = await Promise.all([
+        read<any>("get_charter", [packageId]),
+        read<any>("get_milestone", [packageId]),
+        read<any>("get_witness", [packageId]),
+      ]);
+      setRecord({ charter, milestone, witness: witnessed });
+      setStatus("WITNESS RECORDED ON STUDIONET");
     } catch (e: any) {
       setStatus(e.message);
     }
@@ -259,6 +264,19 @@ export default function Page() {
               <button className="seal" onClick={witness}>
                 SEAL EVIDENCE & CONVENE →
               </button>
+              {record && (
+                <div className="recorded-witness">
+                  <small>RECORDED WITNESS / CONTRACT STATE</small>
+                  <h3>{record.witness.outcome} · {record.witness.confidence}%</h3>
+                  <p>{record.witness.summary}</p>
+                  <b>FROZEN MISSION</b><p>{record.charter.mission}</p>
+                  <b>AUTHENTICATED SOURCE</b>
+                  <a href={record.charter.sources[0]} target="_blank">{record.charter.sources[0]}</a>
+                  <p>{record.charter.snapshots[0]}</p>
+                  <b>FROZEN OBLIGATIONS</b>
+                  <ul>{record.charter.obligations.map((x:string)=><li key={x}>{x}</li>)}</ul>
+                </div>
+              )}
             </motion.section>
           </>
         )}

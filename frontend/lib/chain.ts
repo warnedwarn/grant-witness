@@ -1,12 +1,12 @@
 "use client";
 import { createAccount, createClient } from "genlayer-js";
-import { testnetBradbury } from "genlayer-js/chains";
+import { studionet } from "genlayer-js/chains";
 export const CONTRACT =
-  "0x3949C1866c3eADEbD13C1F48c4927E34B75b3902" as `0x${string}`;
-export const EXPLORER = "https://explorer-bradbury.genlayer.com/transactions";
-const endpoint = "https://rpc-bradbury.genlayer.com";
+  "0xB57E4a8Dc5CB8b63E05aa2665de5f7579c738991" as `0x${string}`;
+export const EXPLORER = "https://explorer-studio.genlayer.com/tx";
+const endpoint = "https://studio.genlayer.com/api";
 const reader: any = createClient({
-  chain: testnetBradbury,
+  chain: studionet,
   endpoint,
   account: createAccount(),
 });
@@ -20,7 +20,7 @@ export async function connect() {
   const eth = (window as any).ethereum;
   if (!eth) throw Error("Install Rabby or MetaMask first.");
   const [a] = await eth.request({ method: "eth_requestAccounts" });
-  const id = "0x107d";
+  const id = "0xf22f";
   if (
     String(await eth.request({ method: "eth_chainId" })).toLowerCase() !== id
   ) {
@@ -30,16 +30,16 @@ export async function connect() {
         params: [{ chainId: id }],
       });
     } catch (e: any) {
-      if (e?.code !== 4902) throw Error("Approve the Bradbury network switch.");
+      if (e?.code !== 4902) throw Error("Approve the StudioNet network switch.");
       await eth.request({
         method: "wallet_addEthereumChain",
         params: [
           {
             chainId: id,
-            chainName: "GenLayer Bradbury Testnet",
+            chainName: "GenLayer StudioNet",
             nativeCurrency: { name: "GEN", symbol: "GEN", decimals: 18 },
             rpcUrls: [endpoint],
-            blockExplorerUrls: ["https://explorer-bradbury.genlayer.com"],
+            blockExplorerUrls: ["https://explorer-studio.genlayer.com"],
           },
         ],
       });
@@ -50,13 +50,16 @@ export async function connect() {
     }
   }
   wallet = createClient({
-    chain: testnetBradbury,
+    chain: studionet,
     endpoint,
     account: a,
     provider: eth,
   });
   await wallet.initializeConsensusSmartContract?.().catch(() => {});
   return a as string;
+}
+export async function read<T>(name: string, args: any[] = []) {
+  return (await reader.readContract({ address: CONTRACT, functionName: name, args })) as T;
 }
 export async function write(
   name: string,
