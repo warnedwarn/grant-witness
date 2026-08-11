@@ -472,14 +472,13 @@ footer {
 .room > button.seal {
   display: block;
   float: none;
-  margin-left: auto;
-  margin-top: 18px;
+  clear: both;
+  margin: 28px auto 0;
   background: var(--dark);
   color: var(--acid);
   border: 0;
   padding: 20px 28px;
-  position: sticky;
-  bottom: 0;
+  position: relative;
   z-index: 2;
 }
 @media (max-width: 850px) {
